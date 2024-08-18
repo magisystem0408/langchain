@@ -5,11 +5,10 @@ import os
 import pathlib
 from io import BytesIO, StringIO
 from typing import Any, Dict, Iterable, List, Optional, Tuple, TypedDict, cast
-
-import requests
 from langchain_core.documents import Document
 
 from langchain_text_splitters.character import RecursiveCharacterTextSplitter
+from security import safe_requests
 
 
 class ElementType(TypedDict):
@@ -78,7 +77,7 @@ class HTMLHeaderTextSplitter:
         Args:
             url: web URL
         """
-        r = requests.get(url)
+        r = safe_requests.get(url)
         return self.split_text_from_file(BytesIO(r.content))
 
     def split_text(self, text: str) -> List[Document]:
