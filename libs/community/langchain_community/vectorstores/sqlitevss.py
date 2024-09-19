@@ -122,7 +122,7 @@ class SQLiteVSS(VectorStore):
         ]
         self._connection.executemany(
             f"INSERT INTO {self._table}(text, metadata, text_embedding) "
-            f"VALUES (?,?,?)",
+            "VALUES (?,?,?)",
             data_input,
         )
         self._connection.commit()
@@ -144,11 +144,11 @@ class SQLiteVSS(VectorStore):
             INNER JOIN vss_{self._table} v on v.rowid = e.rowid  
             WHERE vss_search(
               v.text_embedding,
-              vss_search_params('{json.dumps(embedding)}', {k})
+              vss_search_params(?, {k})
             )
         """
         cursor = self._connection.cursor()
-        cursor.execute(sql_query)
+        cursor.execute(sql_query, (json.dumps(embedding), ))
         results = cursor.fetchall()
 
         documents = []
