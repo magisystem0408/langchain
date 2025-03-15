@@ -4,10 +4,9 @@ In order to set this up, follow instructions at:
 https://levelup.gitconnected.com/api-tutorial-how-to-use-bing-web-search-api-in-python-4165d5592a7e
 """
 from typing import Dict, List
-
-import requests
 from langchain_core.pydantic_v1 import BaseModel, Extra, Field, root_validator
 from langchain_core.utils import get_from_dict_or_env
+from security import safe_requests
 
 
 class BingSearchAPIWrapper(BaseModel):
@@ -37,7 +36,7 @@ class BingSearchAPIWrapper(BaseModel):
             "textFormat": "HTML",
             **self.search_kwargs,
         }
-        response = requests.get(
+        response = safe_requests.get(
             self.bing_search_url,
             headers=headers,
             params=params,  # type: ignore
