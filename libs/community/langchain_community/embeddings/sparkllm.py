@@ -77,8 +77,8 @@ class SparkLLMTextEmbeddings(BaseModel, Embeddings):
                 self.spark_app_id.get_secret_value(), query_context
             )
             response = requests.post(
-                url, json=content, headers={"content-type": "application/json"}
-            ).text
+                url, json=content, headers={"content-type": "application/json"}, 
+            timeout=60).text
             res_arr = self._parser_message(response)
             if res_arr is not None:
                 embed_result.append(res_arr.tolist())

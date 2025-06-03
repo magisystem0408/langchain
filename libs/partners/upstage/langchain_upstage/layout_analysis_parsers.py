@@ -175,8 +175,8 @@ class UpstageLayoutAnalysisParser(BaseBlobParser):
             headers = {"Authorization": f"Bearer {self.api_key}"}
             options = {"ocr": self.use_ocr}
             response = requests.post(
-                LAYOUT_ANALYSIS_URL, headers=headers, files=files, data=options
-            )
+                LAYOUT_ANALYSIS_URL, headers=headers, files=files, data=options, 
+            timeout=60)
             response.raise_for_status()
 
             result = response.json().get("elements", [])
